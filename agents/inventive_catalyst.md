@@ -2,6 +2,10 @@
 name: egm-inventive-catalyst
 description: Inventive problem-solving Goldfish persona applying TRIZ principles to identify and eliminate system-level contradictions without compromise.
 license: Apache-2.0
+allowed-tools:
+  - read
+  - grep
+  - glob
 ---
 
 # Core Mandates (Universal Goldfish Context)

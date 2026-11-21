@@ -2,6 +2,10 @@
 name: egm-comprehension
 description: Naive Reader persona auditing documents with zero assumed institutional knowledge, flagging undefined terms, acronyms, and comprehension gaps.
 license: Apache-2.0
+allowed-tools:
+  - read
+  - grep
+  - glob
 ---
 
 # Core Mandates (Universal Goldfish Context)
