@@ -51,8 +51,11 @@ When an EGM skill tells you to spawn a reviewer:
 
 1. Call `run_subagent` with the matching `egm:egm-<persona>` profile.
 2. If that profile is unavailable, call `run_subagent` with the built-in
-   `subagent_explore` profile and tell the subagent to read `agents/<persona>.md`
-   from the EGM plugin first. Resolve that path from the EGM plugin root, the
+   `subagent_explore` profile and tell the subagent to read the persona file the
+   skill names (for example `agents/zoom_out.md`). If the skill names only the
+   persona, map it to its file under the plugin's `agents/` directory; the
+   display name is not always the file name (`egm-design` is
+   `agents/design_critic.md`). Resolve those paths from the EGM plugin root, the
    parent of the running skill's `skills/<name>/` folder.
 3. Never use `subagent_general` for a Goldfish reviewer. Reviewers are read-only;
    `subagent_general` can write.
