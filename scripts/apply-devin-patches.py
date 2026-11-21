@@ -30,10 +30,11 @@ RULES_DIR = ROOT / "rules"
 
 READ_ONLY = ["read", "grep", "glob"]
 SYNTHESIZER_TOOLS = [
-    "read", "grep", "glob", "edit", "run_subagent", "read_subagent",
+    "read", "grep", "glob", "edit", "write", "run_subagent", "read_subagent",
 ]
 BOOTSTRAP_TOOLS = [
-    "read", "grep", "glob", "exec", "edit", "run_subagent", "read_subagent",
+    "read", "grep", "glob", "exec", "edit", "write", "run_subagent",
+    "read_subagent",
 ]
 
 RULE = """---
@@ -73,9 +74,6 @@ def frontmatter_bounds(lines: list[str]) -> tuple[int, int]:
 def patch_persona(path: pathlib.Path) -> bool:
     lines = path.read_text(encoding="utf-8").splitlines()
     start, end = frontmatter_bounds(lines)
-    block = lines[start + 1:end]
-    if any(line.split(":", 1)[0].strip() == "allowed-tools" for line in block):
-        return False
 
     if path.name == "synthesizer.md":
         tools, nesting = SYNTHESIZER_TOOLS, 2
@@ -88,7 +86,27 @@ def patch_persona(path: pathlib.Path) -> bool:
     if nesting is not None:
         addition.append(f"max-nesting: {nesting}")
 
-    lines[end:end] = addition
+    block_start = None
+    for index in range(start + 1, end):
+        if lines[index].split(":", 1)[0].strip() == "allowed-tools":
+            block_start = index
+            break
+
+    if block_start is None:
+        lines[end:end] = addition
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        return True
+
+    block_end = block_start + 1
+    while block_end < end and lines[block_end].startswith("  - "):
+        block_end += 1
+    if block_end < end and lines[block_end].split(":", 1)[0].strip() == "max-nesting":
+        block_end += 1
+
+    if lines[block_start:block_end] == addition:
+        return False
+
+    lines[block_start:block_end] = addition
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return True
 

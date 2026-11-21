@@ -8,6 +8,7 @@ allowed-tools:
   - glob
   - exec
   - edit
+  - write
   - run_subagent
   - read_subagent
 max-nesting: 2
