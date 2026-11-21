@@ -102,6 +102,7 @@ The fork tracks upstream `main`. The Devin changes are kept in
 `scripts/apply-devin-patches.py`, which is idempotent:
 
 ```sh
+git remote add upstream https://github.com/google/elephant-goldfish-model.git  # once
 git fetch upstream
 git merge upstream/main
 python3 scripts/apply-devin-patches.py
