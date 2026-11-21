@@ -45,7 +45,8 @@ Verify the install:
 devin plugins info egm
 ```
 
-Expected: 8 skills, 10 agent profiles, and no rules.
+Expected: 8 skills, 10 agent profiles, and one agent-decided rule
+(`rules/egm-devin.md`). There should be no always-on `AGENTS.md` rule.
 
 ## Use
 
